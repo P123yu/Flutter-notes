@@ -1,0 +1,335 @@
+
+// main.dart
+
+
+
+import 'package:flutter/material.dart';
+import 'my_page.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key}); 
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Flutter Demo',
+      home: MyPage(),
+    );
+  }
+}
+
+
+
+// my_page.dart
+
+// import 'package:flutter/material.dart';
+// import 'package:widget_practice/square.dart';
+
+// class MyPage extends StatelessWidget {
+//   const MyPage({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // return Container();
+//     // return const Scaffold(
+//     //   body:Center(
+//     //     child: Text(
+//     //       'Hello from My Page123!',
+//     //       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+//     //     ),
+//     //   ),
+//     // );
+
+//     // return const Scaffold(
+//     //   body: Center(
+//     //     child: Text("hello flutter 1"),
+//     //   ),
+//     // );
+
+//     //  return const Scaffold(
+//     //   body:
+//     // );
+
+//     // return Scaffold(
+//     //   body: SafeArea(
+//     //     child: Column(
+//     //       children: [
+//     //         Container(height: 200, color: Colors.deepOrange),
+//     //         Expanded(
+//     //           child: Container( color: Colors.deepPurple),
+//     //         )
+//     //       ],
+//     //     ),
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //   body:Column(
+//     //     children: [
+//     //       Expanded(
+//     //         child: Container(
+//     //           color:Colors.deepOrangeAccent
+//     //         ),
+//     //       ),
+//     //       Expanded(
+//     //         flex:3,
+//     //         child: Container(
+//     //           color:Colors.deepPurple
+//     //         ),
+//     //       ),
+//     //     ]
+//     //   ),
+
+//     // );
+
+//     // return const Scaffold(
+//     //   body: Center(
+//     //     child: Text(
+//     //       "hello",
+//     //       style: TextStyle(
+//     //         fontSize: 35, // Optional: also increases overall text size
+//     //       ),
+//     //     ),
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //     body: Column(
+//     //   mainAxisAlignment: MainAxisAlignment.,
+//     //   children: [
+//     //     Container(height: 50, color: Colors.deepPurple),
+//     //     Container(height: 50, color: Colors.deepOrange),
+//     //     Container(height: 50, color: Colors.black26),
+//     //   ],
+//     // ));
+
+//     // return Scaffold(
+//     //   body: Center(
+//     //     child: Column(
+//     //       mainAxisAlignment: MainAxisAlignment.center, // vertical centering
+//     //       // crossAxisAlignment: CrossAxisAlignment.center, // horizontal centering
+//     //       children: [
+//     //         Container(height: 50, color: Colors.deepPurple),
+//     //         Container(height: 50, color: Colors.deepOrange),
+//     //         Container(height: 50, color: Colors.black26),
+//     //       ],
+//     //     ),
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //   body: Center(
+//     //     child: Column(
+//     //       mainAxisAlignment: MainAxisAlignment.center, // vertical centering
+//     //       // crossAxisAlignment: CrossAxisAlignment.center, // horizontal centering
+//     //       children: [
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.deepPurple),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.deepOrange),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //       ],
+//     //     ),
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //   body: Center(
+//     //     child: Column(
+//     //       mainAxisAlignment: MainAxisAlignment.center, // vertical centering
+//     //       // crossAxisAlignment: CrossAxisAlignment.center, // horizontal centering
+//     //       children: [
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.deepPurple),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.deepOrange),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //         Padding(
+//     //           padding: const EdgeInsets.all(8.0),
+//     //           child: Container(height: 50, color: Colors.black26),
+//     //         ),
+//     //       ],
+//     //     ),
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //   body: Column(
+//     //     children: [
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.deepPurple),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.deepOrange),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //     ],
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //   body: ListView(
+//     //     children: [
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.deepPurple),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.deepOrange),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //       Padding(
+//     //         padding: const EdgeInsets.all(8.0),
+//     //         child: Container(height: 50, color: Colors.black26),
+//     //       ),
+//     //     ],
+//     //   ),
+//     // );
+
+//     // return Scaffold(
+//     //   body: ListView(
+//     //     children: const [Square(), Square()],
+//     //   ),
+//     // );
+
+
+
+//   }
+// }
+
+
+import 'package:flutter/material.dart';
+import 'package:widget_practice/square.dart';
+
+class MyPage extends StatelessWidget {
+  const MyPage({super.key});
+
+  static const List<String> _posts = ["post1", "post2", "post3"];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: _posts.length,
+        itemBuilder: (context, index) {
+          return const Square();
+        },
+      ),
+    );
+  }
+}
+
+
+
+
+// square.dart
+
+import 'package:flutter/material.dart';
+
+class Square extends StatelessWidget {
+  const Square({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+     return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        height: 50,
+        color: Colors.deepPurple,
+      ),
+    );
+  }
+}
+
+
+
