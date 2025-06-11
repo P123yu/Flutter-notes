@@ -251,4 +251,169 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+======================================== user service and user service impl
+
+user_model.dart
+
+
+class User {
+  final int id;
+  final String name;
+  final String city;
+
+  User({required this.id, required this.name, required this.city});
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'],
+      name: map['name'],
+      city: map['address']?['city'] ?? 'Unknown',
+    );
+  }
+}
+
+
+
+user_service.dart
+
+
+
+import 'package:rest_api/model/user_model.dart';
+
+abstract class UserService{
+
+  // get all
+  Future<List<User>> getUsers();
+}
+
+
+
+user_service_impl
+
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:rest_api/model/user_model.dart';
+import 'package:rest_api/service/user_service.dart';
+
+
+
+class UserServiceImpl implements UserService {
+  String dataUrl = "http://10.0.2.2:5000/user";
+
+  @override
+  Future<List<User>> getUsers() async {
+    var url = Uri.parse(dataUrl);
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+      if (body is List) {
+        // Explicitly create a List<User> here
+        return List<User>.from(body.map((item) => User.fromMap(item)));
+      } else {
+        throw Exception("Invalid data format");
+      }
+    } else {
+      throw Exception(
+          'Failed to load users. Status code: ${response.statusCode}');
+    }
+  }
+}
+
+
+
+
+// home_page.dart
+
+import 'package:flutter/material.dart';
+import 'package:rest_api/model/user_model.dart';
+import 'package:rest_api/service/impl/user_service_impl.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<User> users = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsers();
+  }
+
+  void fetchUsers() async {
+    var userService = UserServiceImpl();
+    var fetchedUsers = await userService.getUsers();
+    setState(() {
+      users = fetchedUsers;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("User List")),
+      body: users.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(users[index].name ?? 'No Name'),
+                  subtitle: Text("City: ${users[index].city}"),
+                  leading: Text("ID: ${users[index].id}"),
+                );
+              },
+            ),
+    );
+  }
+}
+
+
+
+
+main.dart
+
+import 'package:flutter/material.dart';
+import 'package:rest_api/ui/home_page.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: HomePage(),
+    );
+  }
+}
+
+
+
+
+
         
