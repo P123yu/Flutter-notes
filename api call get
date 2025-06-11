@@ -1,0 +1,71 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<dynamic> users = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsers();
+  }
+
+  void fetchUsers() async {
+    const String apiUrl = 'http://10.0.2.2:5000/user'; // Use this for Android emulator
+    // const String apiUrl = 'http://localhost:5000/user'; // Use this for Flutter web or iOS
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      print("Status: ${response.statusCode}");
+      print("Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        final List<dynamic> body = json.decode(response.body);
+
+        setState(() {
+          users = body;
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load users');
+      }
+    } catch (e) {
+      print("Error fetching users: $e");
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("User List")),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : users.isEmpty
+              ? const Center(child: Text("No users found"))
+              : ListView.builder(
+                  itemCount: users.length,
+                  itemBuilder: (context, index) {
+                    final user = users[index];
+                    return ListTile(
+                      leading: Text("ID: ${user['id']}"),
+                      title: Text(user['name'] ?? 'No Name'),
+                      subtitle: Text("City: ${user['city'] ?? 'Unknown'}"),
+                    );
+                  },
+                ),
+    );
+  }
+}
