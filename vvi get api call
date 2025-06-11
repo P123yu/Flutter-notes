@@ -175,4 +175,80 @@ class _HomePageState extends State<HomePage> {
 
 =====================================================================================================================================================================================
 
+
+
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:rest_api/model/user_model.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<dynamic> users = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsers();
+  }
+
+  void fetchUsers() async {
+    // const String url = 'http://localhost:5000/user';
+
+  String url = "http://10.0.2.2:5000/user";
+
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      print('Status: ${response.statusCode}');
+      print('Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        final List<User> usersList = data.map((e) => User.fromMap(e)).toList();
+        setState(() {
+          // users = data;
+          users = usersList;
+          isLoading = false;
+        });
+      } else {
+        throw Exception('Failed to load users');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("JSONPlaceholder Users")),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                final user = users[index];
+                return ListTile(
+                  leading: Text("ID: ${user.id ?? 'N/A'}"),
+                  title: Text(user.name ?? 'No Name'),
+                  subtitle: Text("City: ${user.city ?? 'Unknown'}"),
+                );
+              },
+            ),
+    );
+  }
+}
+
         
