@@ -415,5 +415,140 @@ class MyApp extends StatelessWidget {
 
 
 
+============================= best way
+
+user_model.dart
+
+
+class User {
+  final int id;
+  final String name;
+  final String city;
+
+  User({required this.id, required this.name, required this.city});
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      id: map['id'],
+      name: map['name'],
+      city: map['address']?['city'] ?? 'Unknown',
+    );
+  }
+}
+
+
+
+user_service.dart
+
+
+import 'package:rest_api/model/user_model.dart';
+
+abstract class UserService{
+
+  // get all
+  Future<List<User>> getUsers();
+
+
+
+}
+
+
+
+
+
+user_service_impl.dart
+
+import 'dart:convert';
+
+import 'package:rest_api/model/user_model.dart';
+import 'package:rest_api/service/user_service.dart';
+import 'package:http/http.dart' as http;
+
+class UserServiceImpl implements UserService {
+  String dataUrl = "http://10.0.2.2:5000/user";
+
+
+  @override
+  Future<List<User>> getUsers() async {
+    List<User> userLists = [];
+
+    var url = Uri.parse(dataUrl); // ✅ Fixed URL (no /id)
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var body = json.decode(response.body);
+
+      // Make sure body is a List
+      if (body is List) {
+        for (var item in body) {
+          userLists.add(User.fromMap(item));
+        }
+      }
+    } else {
+      throw Exception('Failed to load users. Status Code: ${response.statusCode}');
+    }
+
+    return userLists;
+  }
+}
+
+
+
+
+
+home_page.dart
+
+import 'package:flutter/material.dart';
+import 'package:rest_api/model/user_model.dart';
+import 'package:rest_api/service/impl/user_service_impl.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<User> users = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUsers();
+  }
+
+  void fetchUsers() async {
+    var userService = UserServiceImpl();
+    var fetchedUsers = await userService.getUsers();
+    setState(() {
+      users = fetchedUsers;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("User List")),
+      body: users.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                final user = users[index];
+                return ListTile(
+                  leading: Text("ID: ${user.id}"),
+                  title: Text(user.name),
+                  subtitle: Text("City: ${user.city}"),
+                );
+              },
+            ),
+    );
+  }
+}
+
+
+
+
 
         
